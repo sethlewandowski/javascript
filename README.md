@@ -1,4 +1,4 @@
-FathomLinkTracking
+## FathomLinkTracking
 
 I use fathom to track visits for all my websites and recently needed to solve a problem. 
 
@@ -7,3 +7,17 @@ I wanted an easy way to track outbound referrals to the companies that one of my
 The issue was, the site is run on Squarespace and already has 100+ pages. Going through all those to add "onClick" properties was not only counterproductive, but also not possible give the structure of Squarespace. 
 
 So, instead, I used a .js code injection into the FOOTER of all pages which looks at the entire document for any elements that have an href attribute containing the links to my partner sites and assigns them an Event Listener to track the click on Fathom. 
+
+#### Here's an example of how I added an event listener for clicks to all elements that send the clicker to a url 
+```
+document.querySelectorAll("[href*=prevail]").forEach(item => {
+	item.addEventListener('click', () => fathom.trackGoal('RRWE7BFH', 0));
+});
+```
+You can see that I'm only looking for an href that contains 'prevail' because I want it to match all links to that site (i.e. prevail.com), from there, it's easy to add the event listener which calls a function stated in the head of my document (i.e. my tracking link). 
+
+### Don't forget!
+
+1. If you put querySelectorAll in the HEAD along with your tracking code, that script will run before your page has rendered and your query will return an empty array. 
+
+2. If the user is using an ad blocker (i.e. js blocker) this will not work. Such is life. 
